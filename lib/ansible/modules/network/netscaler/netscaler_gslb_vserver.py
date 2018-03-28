@@ -285,7 +285,14 @@ options:
             - 'disabled'
         description:
             - "Enable logging appflow flow information."
-
+            
+    edr:
+        choices:
+            - 'enabled'
+            - 'disabled'
+        description:
+            - "When this Virtual Server is DOWN, when enabled, do not send any service's IP address in response (EDR)"
+            
     domain_bindings:
         description:
             - >-
@@ -741,6 +748,13 @@ def main():
                 'disabled',
             ]
         ),
+        edr=dict(
+            type='str',
+            choices=[
+                'enabled',
+                'disabled',
+            ]
+        ),
         domainname=dict(type='str'),
         cookie_domain=dict(type='str'),
     )
@@ -815,6 +829,7 @@ def main():
         'sothreshold',
         'sobackupaction',
         'appflowlog',
+        'edr',
         'cookie_domain',
     ]
 
@@ -849,6 +864,7 @@ def main():
         'disableprimaryondown': [lambda v: v.upper()],
         'sopersistence': [lambda v: v.upper()],
         'appflowlog': [lambda v: v.upper()],
+        'edr': [lambda v: v.upper()]
     }
 
     # Instantiate config proxy
